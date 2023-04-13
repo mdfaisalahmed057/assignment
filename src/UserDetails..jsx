@@ -119,15 +119,24 @@ const handlePageClick = event => {
 <div className='flex '>
 
 <h1 className='ml-6 font-bold'>First Name</h1>
- <PersonIcon className=' ml-2 bg-pink-500 text-white rounded' />  <input onChange={handlechange} name='firstName' value={formData.firstName}  required type='text' className='ml-2 border border-pink-500 rounded outline-none ' placeholder='enter first name'   />
+<PersonIcon className=' ml-2 bg-pink-500 text-white rounded' />
+<input onChange={handlechange} name='firstName'
+value={formData.firstName}
+required type='text' className='ml-2 border border-pink-500 rounded outline-none '
+placeholder='enter first name' />
 
  <h1 className='ml-6 font-bold'>Last Name</h1>
  <PersonIcon className='ml-2 bg-pink-500 text-white rounded' />
- <input onChange={handlechange} name='lastName'  value={formData.lastName}  required type='text' className='ml-2 border border-pink-500 rounded outline-none ' placeholder='enter   last name'/>
+ <input onChange={handlechange} name='lastName'  
+ value={formData.lastName}  required type='text'
+ className='ml-2 border border-pink-500 rounded outline-none ' 
+placeholder='enter   last name'/>
 
  <h1 className='ml-6 font-bold'>DOB</h1>
  <CakeIcon className='ml-2 bg-pink-500 text-white rounded' />
-  <input onChange={handlechange} name='age' value={formData.age} required type='number' className=' ml-2 border border-pink-500 rounded outline-none ' placeholder='enter  DOB'  pattern="[1-9][0-9]?" title="Age must be greater than 18!"/>
+ <input onChange={handlechange} name='age' value={formData.age} required type='number'
+ className=' ml-2 border border-pink-500 rounded outline-none ' placeholder='enter  DOB' 
+ pattern="[1-9][0-9]?" title="Age must be greater than 18!"/>
 { error && <span className='text-red-600 font-bold'>age shufl 19</span>
 } </div>
 
