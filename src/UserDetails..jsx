@@ -141,10 +141,10 @@ placeholder='enter first name' />
  className='ml-2 border border-pink-500 rounded outline-none ' 
 placeholder='enter   last name'/>
 
- <h1 className='ml-6 font-bold'>DOB</h1>
+ <h1 className='ml-6 font-bold'>Age</h1>
  <CakeIcon className='ml-2 bg-pink-500 text-white rounded' />
  <input onChange={handlechange} name='age' value={formData.age} required type='number'
- className=' ml-2 border border-pink-500 rounded outline-none ' placeholder='enter  DOB' 
+ className=' ml-2 border border-pink-500 rounded outline-none ' placeholder='enter  Age' 
  pattern="[1-9][0-9]?" title="Age must be greater than 18!"/>
 
 { error && <span className='text-red-600 font-bold'>age  greater then 18</span>
