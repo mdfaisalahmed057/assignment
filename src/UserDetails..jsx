@@ -8,11 +8,14 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
 import ReactPaginate from 'react-paginate';
 
+
  const  UserDetails=()=> {
 
-
 const[data,setData]=useState([])
-  const [formData, setFormData] = useState({
+const[error,seterror]=useState(false)
+const[searchquery,setSearchQuery]=useState("")
+const[currentPage,setcurrentPage]=useState(1);
+const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
@@ -21,14 +24,9 @@ const[data,setData]=useState([])
     postcode:'',
     age:''
   })
-const[error,seterror]=useState(false)
-
-const[searchquery,setSearchQuery]=useState("")
-const[currentPage,setcurrentPage]=useState(1);
-const[itemsperpage,setitemsperpage]=useState(4)
-
+ 
+  // Fetch API data and update state
    useEffect(() => {
-    // Fetch API data and update state
     fetch('https://randomuser.me/api/?inc=email,phone,name,dob,location')  
       .then(response => response.json())
       .then(data => setData(data.results))
@@ -36,11 +34,14 @@ const[itemsperpage,setitemsperpage]=useState(4)
   }, []);
   console.log(data)
  
+  // search bar logic
  const filterdata=data.filter((user)=>{
   const fullname=`${user.name.first}`.toLowerCase();
   return fullname.includes(searchquery.toLowerCase())
  })
 
+
+ // adding data using post request 
 const AddDetails=async(e)=>{
 e.preventDefault()
  const{firstName,lastName,city,postcode,age,email,phone}=formData
@@ -90,15 +91,19 @@ await fetch('https://jsonplaceholder.typicode.com/posts', {
 //handling error
 const handlechange=(e)=>{
     const{name,value}=e.target
-    if (name === 'age' && value<18) {
-       seterror(true)
-      }
+    if (value <= 18) {
+      seterror('Age must be greater than 18');
+    } else {
+      seterror('');
+    }
+
+ 
     setFormData({...formData,[name]:value})
 
 }
 
 
-// total pagges
+// React paging 
 
 const itemsPerPage = 1;
 const pageCount = Math.ceil(data.length / itemsPerPage);
@@ -110,7 +115,11 @@ const handlePageClick = event => {
   return (
     <div className='main border border-pink-500'>
       <div className='search flex justify-center mt-8'>
-     <SearchIcon className='bg-pink-500 text-white'/> <input value={searchquery} onChange={(e)=>setSearchQuery(e.target.value)} className='w-80 border border-pink-600 outline-none  rounded '  placeholder='Enter the element to search' />
+
+     <SearchIcon className='bg-pink-500 text-white'/> 
+     <input value={searchquery} onChange={(e)=>setSearchQuery(e.target.value)}
+      className='w-80 border border-pink-600 outline-none  rounded ' 
+       placeholder='Enter the first name to search' />
       </div>
     <div className='form'>
    <form onSubmit={AddDetails}>
@@ -137,12 +146,14 @@ placeholder='enter   last name'/>
  <input onChange={handlechange} name='age' value={formData.age} required type='number'
  className=' ml-2 border border-pink-500 rounded outline-none ' placeholder='enter  DOB' 
  pattern="[1-9][0-9]?" title="Age must be greater than 18!"/>
-{ error && <span className='text-red-600 font-bold'>age shufl 19</span>
-} </div>
+
+{ error && <span className='text-red-600 font-bold'>age  greater then 18</span>
+}
+ </div>
 
 <div className='flex mt-10'>
 
-<h1 className='ml-6 font-bold'>City Name</h1>
+<h1 className='ml-6 font-bold'>City Name</h1> 
 
  <LocationCityIcon className=' ml-2 bg-pink-500 text-white rounded' /> 
 <input onChange={handlechange}
@@ -154,14 +165,17 @@ placeholder='enter   last name'/>
  <h1 className='ml-6 font-bold'>Phone NO</h1>
  <LocalPhoneIcon className='ml-2 bg-pink-500 text-white rounded' />
   <input name='phone' 
+  pattern='[0-9]{10}'
   onChange={handlechange} 
   value={formData.phone}   
-  type='number' className=' ml-2 border border-pink-500 rounded outline-none '
+  type='tel' className=' ml-2 border border-pink-500 rounded outline-none '
   placeholder='enter  Phone'/>
-
+ 
+  
  <h1 className='ml-6 font-bold'>Email</h1>
  <EmailIcon className='ml-2 bg-pink-500 text-white rounded' />
-  <input name='email' onChange={handlechange} 
+  <input name='email' onChange={handlechange}
+  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" 
   value={formData.email} 
   required type='email' className='ml-2 border border-pink-500 rounded outline-none '
   placeholder='enter Email'/>
